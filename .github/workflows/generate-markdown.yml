@@ -2,7 +2,10 @@ name: Generate Random Markdown
 
 on:
   workflow_dispatch:  # hanya jalan saat kamu klik manual dari GitHub
-
+  
+permissions:
+  contents: write
+  
 jobs:
   generate-file:
     runs-on: ubuntu-latest
