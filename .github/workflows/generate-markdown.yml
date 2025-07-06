@@ -1,0 +1,33 @@
+name: Generate Random Markdown
+
+on:
+  workflow_dispatch:  # hanya jalan saat kamu klik manual dari GitHub
+
+jobs:
+  generate-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Generate random filename and create markdown
+        run: |
+          mkdir -p notes
+          FILENAME="notes/note-$(openssl rand -hex 4).md"
+          DATE=$(date +"%Y-%m-%d %H:%M:%S")
+          echo "# Catatan Otomatis" > "$FILENAME"
+          echo "" >> "$FILENAME"
+          echo "Tanggal dibuat: $DATE" >> "$FILENAME"
+          echo "File created: $FILENAME"
+
+      - name: Commit and push changes
+        run: |
+          git add .
+          git commit -m "Menambahkan file markdown acak baru"
+          git push
